@@ -13,8 +13,17 @@ services:
     image: redis:alpine
     restart: always
 
+  s3:
+    image: minio/minio
+    restart: always
+    volumes:
+      - s3data:/data
+    env_file:
+      - s3.env
+    command: --compat server /data
+
   app:
-    build: ./docker/16.0/fpm-alpine
+    build: ./nextcloud/16.0/fpm-alpine
     restart: always
     volumes:
       - nextcloud:/var/www/html
@@ -22,11 +31,14 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_DB=nextcloud
       - REDIS_HOST=redis
+      - S3_HOST=s3
     env_file:
       - db.env
+      - s3.env
     depends_on:
       - db
       - redis
+      - s3
 
   web:
     build: ./web
@@ -47,7 +59,10 @@ services:
     depends_on:
       - db
       - redis
+      - s3
+
 
 volumes:
   db:
   nextcloud:
+  s3data:
