@@ -51,7 +51,7 @@ services:
       - app
 
   cron:
-    build: ./docker/16.0/fpm-alpine
+    build: ./nextcloud/16.0/fpm-alpine
     restart: always
     volumes:
       - nextcloud:/var/www/html
