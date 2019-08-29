@@ -64,6 +64,13 @@ services:
       - redis
       - s3
 
+  s3watch:
+    build: ./s3watch
+    env_file:
+      - s3.env
+    depends_on:
+      - s3
+
 
 volumes:
   db:
