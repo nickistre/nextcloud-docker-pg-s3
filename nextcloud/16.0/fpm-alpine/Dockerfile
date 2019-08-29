@@ -118,6 +118,7 @@ RUN set -ex; \
     apk del .fetch-deps
 
 COPY *.sh upgrade.exclude /
+COPY www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY config/* /usr/src/nextcloud/config/
 
 ENTRYPOINT ["/entrypoint.sh"]
